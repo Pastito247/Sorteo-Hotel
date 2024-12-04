@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users',
     'rest_framework_simplejwt',
     'django_celery_results',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+MIDDLEWARE.insert(0, "corsheaders.middleware.CorsMiddleware")
 
 ROOT_URLCONF = 'sorteo_valentin.urls'
 
@@ -87,12 +91,12 @@ DATABASES = {
 AUTH_USER_MODEL = 'users.CustomUser'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Si usas Gmail
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = '10b697d77affea'
-EMAIL_HOST_PASSWORD = 'f47d1bda184fb6'
-EMAIL_PORT = '2525'
-DEFAULT_FROM_EMAIL = 'noreply@sorteo_valentin.com'
+EMAIL_HOST_USER = 'hotelvelentine14@gmail.com'
+EMAIL_HOST_PASSWORD = 'ffkk ezia lyai pdez'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # Password validation
@@ -151,3 +155,9 @@ CELERY_BROKER_URL = 'redis://localhost:6380/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # URL de tu frontend
+    "http://127.0.0.1:5173",
+]

@@ -21,6 +21,7 @@ from .serializers import UserLoginSerializer
 from users.tasks import send_email_task
 
 
+
 class RegisterUser(APIView):
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
@@ -31,33 +32,32 @@ class RegisterUser(APIView):
             send_email_task.delay(
                 'Verifica tu cuenta',
                 f'Por favor, verifica tu correo haciendo clic en el siguiente enlace: {verification_link}',
-                '10b697d77affea@gmail.com',  # Remitente
+                'HotelValentine@gmail.com',  # Remitente
                 user.email  # Destinatario
             )
             return Response({"message": "User registered successfully. Check your email to verify your account."}, status=201)
         return Response(serializer.errors, status=400)
 
 class VerifyEmail(APIView):
-    @csrf_exempt
     def get(self, request, uidb64, token):
+        print(f"UID: {uidb64}, Token: {token}")  # Para depuración
         try:
-            uid = force_str(urlsafe_base64_decode(uidb64))
-            user = get_object_or_404(CustomUser, pk=uid)
-        except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
-            user = None
+            from django.utils.http import urlsafe_base64_decode
+            from django.utils.encoding import force_str
+            from django.contrib.auth.tokens import default_token_generator
+            from .models import CustomUser
 
-        if user and default_token_generator.check_token(user, token):
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = CustomUser.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+            return Response({"error": "Invalid user ID."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if default_token_generator.check_token(user, token):
             user.is_email_verified = True
             user.save()
-            # Usar Celery para enviar el correo asíncrono
-            send_email_task.delay(
-                'Email verified',
-                f'Tu correo ha sido verificado exitosamente.',
-                '10b697d77affea@gmail.com',
-                [user.email]
-            )
-            return Response({"message": "Email verified successfully"}, status=200)
-        return Response({"error": "Invalid or expired token"}, status=400)
+            return Response({"message": "Email verified successfully."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Invalid or expired token."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginUser(APIView):
@@ -119,15 +119,12 @@ class ChooseWinner(APIView):
             send_email_task.delay(
                 '¡Felicidades!',
                 f'¡Felicidades {winner.username}! Has ganado el sorteo.',
-                'sorteo@valentin.com', 
+                'HotelValentine@gmail.com', 
                 winner.email  
             )
-            return Response({"message": f"The winner is {winner.username}."})
+            return Response({"message": f"El ganador es: {winner.email}"})
         else:
             return Response({"error": "No eligible users found."}, status=400)
-
-# Vista de ejemplo para probar el envío de correos
-from users.tasks import send_email_task
 
 @csrf_exempt
 def send_email_view(request):

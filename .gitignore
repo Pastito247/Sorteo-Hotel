@@ -14,9 +14,6 @@ env.bak/
 *.pyo
 __pycache__/
 
-# Archivos de bases de datos de SQLite
-db.sqlite3
-
 # Archivos de logs
 *.log
 
@@ -34,5 +31,4 @@ celerybeat-schedule
 *.pid
 
 # Archivos generados por Django (migraciones)
-*.sqlite3
 *.log
