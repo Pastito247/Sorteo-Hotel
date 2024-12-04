@@ -20,46 +20,46 @@ Primero, clona el repositorio:
 ```bash
 git clone <url_del_repositorio>
 cd sorteo_valentin
-
-#Crea un entorno virtual
+```
+```Crea un entorno virtual
 python -m venv venv
 source venv/bin/activate  # En Windows usa: venv\Scripts\activate
-
-#instala requirement.txt
+```
+```instala requirement.txt
 pip install -r requirements.txt
-
-#corre la base de datos
+```
+```corre la base de datos
 python manage.py migrate
-
-#dentro del entorno virtual ejecuta esto en distintas terminales
+```
+```dentro del entorno virtual ejecuta esto en distintas terminales
 
 redis-server --port 6380 #Terminal 1
 celery -A sorteo_valentin worker --loglevel=info --pool=solo #Terminal 2
 python manage.py runserver #Terminal 3
-
-#Clona el Front End
+```
+```Clona el Front End
 cd frontend
 npm install
 npm run dev
+```
 
-
-#Credentials Administrator
+```Credentials Administrator
 correo: admin@example.com
 contraseña: ADMIN
-
+```
 # Flujo de Trabajo
 # Registro de Usuario
-# Los usuarios pueden registrarse proporcionando su correo electrónico y contraseña.
-# El sistema enviará un correo de verificación. Los usuarios deberán verificar su correo para completar el registro.
+Los usuarios pueden registrarse proporcionando su correo electrónico y contraseña.
+El sistema enviará un correo de verificación. Los usuarios deberán verificar su correo para completar el registro.
 # Participación en el Sorteo
-# Una vez autenticados, los usuarios pueden acceder a la página para participar en el sorteo.
-# Los usuarios no admin o staff pueden generar un ganador, mientras que los administradores o el personal pueden gestionar el sorteo.
+ Una vez autenticados, los usuarios pueden acceder a la página para participar en el sorteo.
+ Los usuarios no admin o staff pueden generar un ganador, mientras que los administradores o el personal pueden gestionar el sorteo.
 # Verificación de Correo
-# Un correo será enviado con un enlace de verificación. Al hacer clic, se verificará la cuenta del usuario y se podrá iniciar sesión.
+Un correo será enviado con un enlace de verificación. Al hacer clic, se verificará la cuenta del usuario y se podrá iniciar sesión.
 # Notas
-# Asegúrate de tener CORS habilitado en Django para permitir que el frontend haga solicitudes a la API.
-# Si estás utilizando Redis para Celery, asegúrate de que esté configurado correctamente.
-# El proyecto está configurado para correr en un entorno local. Si planeas desplegarlo en producción, necesitarás ajustar la configuración de CORS, el entorno de la base de datos, y la seguridad.
+Asegúrate de tener CORS habilitado en Django para permitir que el frontend haga solicitudes a la API.
+Si estás utilizando Redis para Celery, asegúrate de que esté configurado correctamente.
+El proyecto está configurado para correr en un entorno local. Si planeas desplegarlo en producción, necesitarás ajustar la configuración de CORS, el entorno de la base de datos, y la seguridad.
 
 
-# Este `README.md` cubre todos los pasos para configurar y ejecutar tanto el backend como el frontend en tu entorno local. Asegúrate de seguir cada paso según corresponda.
+ Este `README.md` cubre todos los pasos para configurar y ejecutar tanto el backend como el frontend en tu entorno local. Asegúrate de seguir cada paso según corresponda.
