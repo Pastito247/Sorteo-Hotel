@@ -21,29 +21,33 @@ Primero, clona el repositorio:
 git clone <url_del_repositorio>
 cd sorteo_valentin
 ```
-```Crea un entorno virtual
+### 2. Crea un entorno virtual
+```bash
 python -m venv venv
 source venv/bin/activate  # En Windows usa: venv\Scripts\activate
 ```
-```instala requirement.txt
+### 3. Instala requirement.txt
+```bash
 pip install -r requirements.txt
 ```
-```corre la base de datos
+### 4. Corre la base de datos
+```bash
 python manage.py migrate
 ```
-```dentro del entorno virtual ejecuta esto en distintas terminales
-
+### 5. dentro del entorno virtual ejecuta esto en distintas terminales
+```bash
 redis-server --port 6380 #Terminal 1
 celery -A sorteo_valentin worker --loglevel=info --pool=solo #Terminal 2
 python manage.py runserver #Terminal 3
 ```
-```Clona el Front End
+### 6. Clona el Front End
+```bash
 cd frontend
 npm install
 npm run dev
 ```
-
-```Credentials Administrator
+# Credentials Administrator
+```bash
 correo: admin@example.com
 contraseña: ADMIN
 ```
