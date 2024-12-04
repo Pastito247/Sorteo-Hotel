@@ -1,0 +1,38 @@
+# Ignorar el entorno virtual
+venv/
+*.env
+*.venv
+env/
+env.bak/
+.venv/
+
+# Archivos de configuración del editor
+.vscode/
+
+# Archivos de configuración de Django
+*.pyc
+*.pyo
+__pycache__/
+
+# Archivos de bases de datos de SQLite
+db.sqlite3
+
+# Archivos de logs
+*.log
+
+# Archivos de caché de Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de Celery
+celerybeat-schedule
+*.pid
+
+# Archivos generados por Django (migraciones)
+*.sqlite3
+*.log
